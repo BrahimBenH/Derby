@@ -1,0 +1,1324 @@
+:root {
+    --bg-gradient-light-start: #325c2d; /* Jungle canopy green */
+    --bg-gradient-light-end: #1e3d1f; /* Darker forest green */
+    --bg-gradient-dark-start: #0b1e0e; /* Deep jungle shadows */
+    --bg-gradient-dark-end: #071b0c; /* Very dark green */
+  
+    --text-light: #fdf6c3; /* Soft light yellow (glow-like) */
+    --text-dark: #e0f5d0; /* Pale jungle leaf green */
+    --text-muted-light: #aac4a0; /* Muted mossy green */
+    --text-muted-dark: #587055; /* Dim olive green */
+  
+    --border-light: #b9d3ae; /* Soft light leaf outline */
+    --border-dark: #3e5535; /* Dark jungle outline */
+  
+    --card-bg-light: #2d4a1f; /* Lighter card green */
+    --card-bg-dark: #1a2e13; /* Dark card background */
+  
+    --field-bg-light: #a2c35a; /* Bright jungle field */
+    --field-bg-dark: #4c6a2b; /* Deep grass tone */
+  
+    --eagles-color-light: #a8e663; /* Light green team car */
+    --eagles-color-dark: #5d9625; /* Forest green team car */
+  
+    --lions-color-light: #f5b467; /* Light orange/brown team car */
+    --lions-color-dark: #a6510c; /* Earthy orange-brown team car */
+  
+    --btn-bg-light: #48682e; /* Button leaf green */
+    --btn-bg-dark: #2b471a; /* Dark button green */
+    --btn-hover-light: #5c873a; /* Hover light green */
+    --btn-hover-dark: #3b5a25; /* Hover dark jungle green */
+  
+    --shadow-light: 0 1px 3px rgba(10, 20, 10, 0.2);
+    --shadow-dark: 0 1px 3px rgba(0, 0, 0, 0.5);
+  
+    --red: #b12300; /* Dull red for highlights */
+    --green: #4cc60a; /* Jungle green */
+    --blue: #148be0; /* Faded leaf blue-green */
+    --yellow: #f5e665; /* Bright jungle light */
+  
+    --transition-speed: 0.3s;
+  }
+  
+  .light-mode .score-card {
+    border-color: var(--border-light);
+  }
+  .eagles-card {
+    border-color: var(--eagles-color-dark);
+  }
+  
+  .light-mode .eagles-card {
+    background: linear-gradient(to bottom right, var(--eagles-color-light), #c2f08e);
+    border-color: var(--eagles-color-light);
+  }
+  
+  .lions-card {
+    border-color: var(--lions-color-dark);
+  }
+  
+  .light-mode .lions-card {
+    background: linear-gradient(to bottom right, var(--lions-color-light), #f8d9a0);
+    border-color: var(--lions-color-light);
+  }
+  
+  .eagles-card h2 {
+    color: var(--eagles-color-light); /* Jungle green highlight */
+    text-transform: uppercase;
+  }
+  
+  .light-mode .eagles-card h2 {
+    color: var(--eagles-color-dark); /* Deeper forest green in light mode */
+  }
+  
+  .lions-card h2 {
+    color: var(--lions-color-light); /* Orange-tan in dark mode */
+    text-transform: uppercase;
+  }
+  
+  .light-mode .lions-card h2 {
+    color: var(--lions-color-dark); /* Rich earthy orange in light mode */
+  }
+  
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body {
+    font-family: "Inter", sans-serif;
+    min-height: 100vh;
+    padding: 1rem;
+    transition: background-color var(--transition-speed), color var(--transition-speed);
+  }
+  
+  body.light-mode {
+    background: linear-gradient(to bottom, var(--bg-gradient-light-start), var(--bg-gradient-light-end));
+    color: var(--text-light);
+  }
+  
+  body.dark-mode {
+    background: linear-gradient(to bottom, var(--bg-gradient-dark-start), var(--bg-gradient-dark-end));
+    color: var(--text-dark);
+  }
+  
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  /* Header */
+  header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+  }
+  
+  .title-container {
+    text-align: center;
+    flex: 1;
+  }
+  
+  h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+  }
+  
+  @media (max-width: 768px) {
+    h1 {
+      font-size: 1.75rem;
+    }
+  }
+  
+  .subtitle {
+    color: var(--text-muted-dark);
+  }
+  
+  .light-mode .subtitle {
+    color: var(--text-muted-light);
+  }
+  
+  .theme-toggle {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: 1px solid var(--border-dark);
+    color: var(--text-dark);
+    cursor: pointer;
+    transition: background-color var(--transition-speed);
+  }
+  
+  .light-mode .theme-toggle {
+    border-color: var(--border-light);
+    color: var(--text-light);
+  }
+  
+  .theme-toggle:hover {
+    background-color: var(--btn-hover-dark);
+  }
+  
+  .light-mode .theme-toggle:hover {
+    background-color: var(--btn-hover-light);
+  }
+  
+  .icon {
+    width: 20px;
+    height: 20px;
+  }
+  
+  .hidden {
+    display: none;
+  }
+  
+  /* Field */
+  .field {
+    position: relative;
+    height: 16rem;
+    margin-bottom: 2rem;
+    border-radius: 0.75rem;
+    overflow: hidden;
+    background-color: var(--field-bg-dark);
+  }
+  
+  .light-mode .field {
+    background-color: var(--field-bg-light);
+  }
+  
+  /* Field markings */
+  .field-markings {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .center-line {
+    height: 100%;
+    width: 2px;
+    background-color: rgba(255, 255, 255, 0.3);
+  }
+  
+  .light-mode .center-line {
+    background-color: rgba(255, 255, 255, 0.7);
+  }
+  
+  .center-circle {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 8rem;
+    height: 8rem;
+    border-radius: 50%;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+  }
+  
+  .light-mode .center-circle {
+    border-color: rgba(255, 255, 255, 0.7);
+  }
+  
+  .penalty-area {
+    position: absolute;
+    top: 50%;
+    height: 12rem;
+    width: 6rem;
+    transform: translateY(-50%);
+  }
+  
+  .penalty-area.left {
+    left: 0;
+    border-right: 2px solid rgba(255, 255, 255, 0.3);
+  }
+  
+  .penalty-area.right {
+    right: 0;
+    border-left: 2px solid rgba(255, 255, 255, 0.3);
+  }
+  
+  .light-mode .penalty-area.left {
+    border-right-color: rgba(255, 255, 255, 0.7);
+  }
+  
+  .light-mode .penalty-area.right {
+    border-left-color: rgba(255, 255, 255, 0.7);
+  }
+  
+  /* Goals */
+  .goal {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    height: 7.5rem;
+    width: 0.75rem;
+    z-index: 20;
+    transition: height 0.5s ease;
+  }
+  
+  .eagles-goal {
+    left: 0;
+  }
+  
+  .lions-goal {
+    right: 0;
+  }
+  
+  .goal-post {
+    position: absolute;
+    width: 0.5rem;
+    height: 100%;
+    background-color: white;
+  }
+  
+  .eagles-goal .goal-post {
+    left: 0;
+  }
+  
+  .lions-goal .goal-post {
+    right: 0;
+  }
+  
+  .goal-post::before,
+  .goal-post::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    width: 3rem;
+    height: 0.5rem;
+    background-color: white;
+  }
+  
+  .goal-post::before {
+    top: 0;
+  }
+  
+  .goal-post::after {
+    bottom: 0;
+  }
+  
+  .lions-goal .goal-post::before,
+  .lions-goal .goal-post::after {
+    left: auto;
+    right: 0;
+  }
+  
+  .goal-net {
+    position: absolute;
+    height: 100%;
+    width: 2.5rem;
+    border-style: dashed;
+    border-width: 1px;
+    border-color: rgba(255, 255, 255, 0.3);
+  }
+  
+  .eagles-goal .goal-net {
+    left: 0.5rem;
+    border-right: 1px dashed rgba(255, 255, 255, 0.3);
+    border-top: 1px dashed rgba(255, 255, 255, 0.3);
+    border-bottom: 1px dashed rgba(255, 255, 255, 0.3);
+  }
+  
+  .lions-goal .goal-net {
+    right: 0.5rem;
+    border-left: 1px dashed rgba(255, 255, 255, 0.3);
+    border-top: 1px dashed rgba(255, 255, 255, 0.3);
+    border-bottom: 1px dashed rgba(255, 255, 255, 0.3);
+  }
+  
+  .light-mode .goal-net {
+    border-color: rgba(255, 255, 255, 0.5);
+  }
+  
+  .net-pattern {
+    position: absolute;
+    background-color: rgba(255, 255, 255, 0.2);
+  }
+  
+  .light-mode .net-pattern {
+    background-color: rgba(255, 255, 255, 0.4);
+  }
+  
+  .net-pattern.horizontal {
+    width: 100%;
+    height: 1px;
+  }
+  
+  .net-pattern.vertical {
+    height: 100%;
+    width: 1px;
+  }
+  
+  .eagles-goal .net-pattern.horizontal:nth-child(1) {
+    top: 16.6%;
+  }
+  .eagles-goal .net-pattern.horizontal:nth-child(2) {
+    top: 33.2%;
+  }
+  .eagles-goal .net-pattern.horizontal:nth-child(3) {
+    top: 49.8%;
+  }
+  .eagles-goal .net-pattern.horizontal:nth-child(4) {
+    top: 66.4%;
+  }
+  .eagles-goal .net-pattern.horizontal:nth-child(5) {
+    top: 83.0%;
+  }
+  
+  .eagles-goal .net-pattern.vertical:nth-child(6) {
+    left: 25%;
+  }
+  .eagles-goal .net-pattern.vertical:nth-child(7) {
+    left: 50%;
+  }
+  .eagles-goal .net-pattern.vertical:nth-child(8) {
+    left: 75%;
+  }
+  
+  .lions-goal .net-pattern.horizontal:nth-child(1) {
+    top: 16.6%;
+  }
+  .lions-goal .net-pattern.horizontal:nth-child(2) {
+    top: 33.2%;
+  }
+  .lions-goal .net-pattern.horizontal:nth-child(3) {
+    top: 49.8%;
+  }
+  .lions-goal .net-pattern.horizontal:nth-child(4) {
+    top: 66.4%;
+  }
+  .lions-goal .net-pattern.horizontal:nth-child(5) {
+    top: 83.0%;
+  }
+  
+  .lions-goal .net-pattern.vertical:nth-child(6) {
+    right: 25%;
+  }
+  .lions-goal .net-pattern.vertical:nth-child(7) {
+    right: 50%;
+  }
+  .lions-goal .net-pattern.vertical:nth-child(8) {
+    right: 75%;
+  }
+  
+  /* Goal size states */
+  .goal.bigger {
+    height: 8.75rem;
+  }
+  
+  .goal.smaller {
+    height: 5rem;
+  }
+  
+  .goal.bigger .goal-post {
+    background-color: var(--green);
+    box-shadow: 0 0 10px 2px rgba(74, 222, 128, 0.6);
+  }
+  
+  .goal.smaller .goal-post {
+    background-color: var(--red);
+    box-shadow: 0 0 10px 2px rgba(248, 113, 113, 0.6);
+  }
+  
+  /* Center Light */
+  .center-light {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 4rem;
+    height: 4rem;
+    border-radius: 50%;
+    background-color: rgba(31, 41, 55, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 20;
+  }
+  
+  .light-mode .center-light {
+    background-color: rgba(255, 255, 255, 0.7);
+  }
+  
+  .light-fixture {
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+    background-color: #4b5563;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .light-mode .light-fixture {
+    background-color: #d1d5db;
+  }
+  
+  .center-light.red .light-fixture {
+    background-color: var(--red);
+    box-shadow: 0 0 15px 5px var(--red);
+  }
+  
+  .center-light.green .light-fixture {
+    background-color: var(--green);
+    box-shadow: 0 0 15px 5px var(--green);
+  }
+  
+  .center-light.blue .light-fixture {
+    background-color: var(--blue);
+    box-shadow: 0 0 15px 5px var(--blue);
+  }
+  
+  .center-light.active {
+    box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.3);
+  }
+  
+  /* Weather Effects */
+  .weather-effect {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    pointer-events: none;
+    z-index: 10;
+    overflow: hidden;
+  }
+  
+  .eagles-weather {
+    left: 0;
+    right: 50%;
+  }
+  
+  .lions-weather {
+    left: 50%;
+    right: 0;
+  }
+  
+  .storm-overlay {
+    position: absolute;
+    inset: 0;
+    background-color: rgba(30, 58, 138, 0.4);
+  }
+  
+  .clouds {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 4rem;
+  }
+  
+  .cloud {
+    position: absolute;
+    border-radius: 50%;
+    background-color: rgba(107, 114, 128, 0.7);
+  }
+  
+  .cloud-1 {
+    top: 0;
+    left: 5%;
+    width: 5rem;
+    height: 2rem;
+    background-color: rgba(107, 114, 128, 0.7);
+  }
+  
+  .cloud-2 {
+    top: 0.5rem;
+    left: 15%;
+    width: 6rem;
+    height: 2.5rem;
+    background-color: rgba(75, 85, 99, 0.7);
+  }
+  
+  .cloud-3 {
+    top: 0;
+    left: 30%;
+    width: 7rem;
+    height: 3rem;
+    background-color: rgba(55, 65, 81, 0.7);
+  }
+  
+  .cloud-4 {
+    top: 1rem;
+    left: 50%;
+    width: 8rem;
+    height: 2.5rem;
+    background-color: rgba(75, 85, 99, 0.7);
+  }
+  
+  .cloud-5 {
+    top: 0.5rem;
+    left: 70%;
+    width: 5rem;
+    height: 2rem;
+    background-color: rgba(107, 114, 128, 0.7);
+  }
+  
+  .rain-container {
+    position: absolute;
+    inset: 0;
+  }
+  
+  .rain-drop {
+    position: absolute;
+    width: 2px;
+    height: 2.5rem;
+    background-color: rgba(191, 219, 254, 0.5);
+    transform: rotate(15deg);
+  }
+  
+  .lightning {
+    position: absolute;
+    width: 30px;
+    height: 60px;
+  }
+  
+  .lightning svg {
+    width: 100%;
+    height: 100%;
+  }
+  
+  .lightning path {
+    fill: #f0f9ff;
+    fill-opacity: 0.9;
+  }
+  
+  /* Power Spotlight */
+  .power-spotlight {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 3.75rem;
+    height: 3.75rem;
+    z-index: 15;
+  }
+  
+  .spotlight-glow {
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    opacity: 0.7;
+  }
+  
+  .power-spotlight.powerup .spotlight-glow {
+    background-color: var(--green);
+    box-shadow: 0 0 20px 5px var(--green);
+  }
+  
+  .power-spotlight.powerdown .spotlight-glow {
+    background-color: var(--red);
+    box-shadow: 0 0 20px 5px var(--red);
+  }
+  
+  .spotlight-symbol {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1.5rem;
+    font-weight: bold;
+  }
+  
+  /* Field Scores */
+  .field-scores {
+    position: absolute;
+    inset: 0;
+    margin-right: 5%;
+    margin-left: 5%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .team-score {
+    width: 25%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .team-name {
+    font-weight: bold;
+    font-size: 1.25rem;
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+  }
+  
+  .team-score .score-value {
+    font-size: 3rem;
+    font-weight: bold;
+  }
+  
+  .team-score.multiplier .score-value {
+    color: var(--yellow);
+  }
+  
+  /* Point Multiplier */
+  .point-multiplier {
+    position: absolute;
+    top: 1rem;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: var(--yellow);
+    color: white;
+    padding: 0.25rem 0.75rem;
+    border-radius: 9999px;
+    font-weight: bold;
+  }
+  
+  /* Score Cards */
+  .score-cards {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    margin-bottom: 2rem;
+  }
+  
+  @media (min-width: 768px) {
+    .score-cards {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+  
+  .score-card {
+    border-radius: 0.5rem;
+    border: 1px solid var(--border-dark);
+    padding: 1.5rem;
+  }
+  
+  .score-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+  }
+  
+  .score-controls {
+    display: flex;
+    gap: 0.5rem;
+  }
+  
+  .score-btn {
+    width: 2rem;
+    height: 2rem;
+    border-radius: 0.25rem;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    background-color: transparent;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+  }
+  
+  .light-mode .score-btn {
+    border-color: rgba(0, 0, 0, 0.1);
+    color: var(--text-light);
+  }
+  
+  .score-btn:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+  
+  .light-mode .score-btn:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+  }
+  
+  .score-btn svg {
+    width: 1rem;
+    height: 1rem;
+  }
+  
+  .score-display {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 1.5rem;
+  }
+  
+  .score-display .score-value {
+    font-size: 6rem;
+    font-weight: bold;
+  }
+  
+  @media (min-width: 768px) {
+    .score-display .score-value {
+      font-size: 9rem;
+    }
+  }
+  
+  .score-status {
+    margin-top: 1.5rem;
+  }
+  
+  .separator {
+    height: 1px;
+    background-color: rgba(255, 255, 255, 0.2);
+    margin-bottom: 1rem;
+  }
+  
+  .light-mode .separator {
+    background-color: rgba(0, 0, 0, 0.1);
+  }
+  
+  .status-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  .status-label {
+    font-size: 0.875rem;
+    color: rgba(255, 255, 255, 0.6);
+  }
+  
+  .light-mode .status-label {
+    color: rgba(0, 0, 0, 0.6);
+  }
+  
+  .status-badge {
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.25rem;
+    font-size: 0.75rem;
+    font-weight: 500;
+    background-color: rgba(255, 255, 255, 0.1);
+    color: rgba(255, 255, 255, 0.8);
+  }
+  
+  .light-mode .status-badge {
+    background-color: rgba(0, 0, 0, 0.05);
+    color: rgba(0, 0, 0, 0.7);
+  }
+  
+  .status-badge.active {
+    animation: pulse 1s infinite alternate;
+  }
+  
+  @keyframes pulse {
+    0% {
+      transform: scale(1);
+    }
+    100% {
+      transform: scale(1.05);
+    }
+  }
+  
+  /* Power Controls */
+  .power-controls-card {
+    border-radius: 0.5rem;
+    border: 1px solid var(--border-dark);
+    background-color: var(--card-bg-dark);
+    padding: 1.5rem;
+  }
+  
+  .light-mode .power-controls-card {
+    border-color: var(--border-light);
+    background-color: var(--card-bg-light);
+  }
+  
+  .power-controls-card h2 {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+  }
+  
+  .control-section {
+    margin-bottom: 1.5rem;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    border: 1px solid var(--border-dark);
+    background-color: rgba(55, 65, 81, 0.3);
+  }
+  
+  .light-mode .control-section {
+    border-color: var(--border-light);
+    background-color: rgba(243, 244, 246, 0.5);
+  }
+  
+  .control-section h3 {
+    font-size: 1rem;
+    font-weight: 500;
+    margin-bottom: 0.75rem;
+  }
+  
+  .light-controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+  
+  .light-btn {
+    display: flex;
+    align-items: center;
+    padding: 0.5rem 1rem;
+    border-radius: 0.25rem;
+    border: 1px solid var(--border-dark);
+    background-color: transparent;
+    color: var(--text-dark);
+    cursor: pointer;
+  }
+  
+  .light-mode .light-btn {
+    border-color: var(--border-light);
+    color: var(--text-light);
+  }
+  
+  .light-btn:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+  
+  .light-mode .light-btn:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+  }
+  
+  .light-btn.active {
+    background-color: var(--btn-bg-dark);
+  }
+  
+  .light-mode .light-btn.active {
+    background-color: var(--btn-bg-light);
+  }
+  
+  .light-btn[data-color="red"].active {
+    background-color: var(--red);
+    color: white;
+  }
+  
+  .light-btn[data-color="green"].active {
+    background-color: var(--green);
+    color: white;
+  }
+  
+  .light-btn[data-color="blue"].active {
+    background-color: var(--blue);
+    color: white;
+  }
+  
+  .color-dot {
+    width: 1rem;
+    height: 1rem;
+    border-radius: 50%;
+    margin-right: 0.5rem;
+  }
+  
+  .color-dot.red {
+    background-color: var(--red);
+  }
+  
+  .color-dot.green {
+    background-color: var(--green);
+  }
+  
+  .color-dot.blue {
+    background-color: var(--blue);
+  }
+  
+  .color-dot.gray {
+    background-color: #9ca3af;
+  }
+  
+  /* Power Movement Controls */
+  .power-movement-controls {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  
+  @media (min-width: 768px) {
+    .power-movement-controls {
+      grid-template-columns: 1fr 1fr 1fr;
+    }
+  }
+  
+  .power-type-controls {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .control-label {
+    font-size: 0.875rem;
+    color: rgba(255, 255, 255, 0.7);
+  }
+  
+  .light-mode .control-label {
+    color: rgba(0, 0, 0, 0.6);
+  }
+  
+  .power-type-buttons {
+    display: flex;
+    gap: 0.5rem;
+  }
+  
+  .power-type-btn {
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.25rem;
+    border: 1px solid var(--border-dark);
+    background-color: transparent;
+    color: var(--text-dark);
+    font-size: 0.875rem;
+    cursor: pointer;
+  }
+  
+  .light-mode .power-type-btn {
+    border-color: var(--border-light);
+    color: var(--text-light);
+  }
+  
+  .power-type-btn:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+  
+  .light-mode .power-type-btn:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+  }
+  
+  .power-type-btn[data-type="powerup"].active {
+    background-color: var(--green);
+    color: white;
+  }
+  
+  .power-type-btn[data-type="powerdown"].active {
+    background-color: var(--red);
+    color: white;
+  }
+  
+  .power-direction-controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+  }
+  
+  .direction-btn {
+    width: 2rem;
+    height: 2rem;
+    border-radius: 0.25rem;
+    border: 1px solid var(--border-dark);
+    background-color: transparent;
+    color: var(--text-dark);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: opacity 0.3s ease;
+  }
+  
+  .light-mode .direction-btn {
+    border-color: var(--border-light);
+    color: var(--text-light);
+  }
+  
+  .direction-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+  
+  .direction-btn:not(:disabled):hover {
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+  
+  .light-mode .direction-btn:not(:disabled):hover {
+    background-color: rgba(0, 0, 0, 0.05);
+  }
+  
+  .direction-btn svg {
+    width: 1rem;
+    height: 1rem;
+  }
+  
+  .power-status {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+  }
+  
+  .power-status-badge {
+    padding: 0.25rem 0.75rem;
+    border-radius: 9999px;
+    font-size: 0.875rem;
+    background-color: rgba(55, 65, 81, 0.7);
+    color: rgba(255, 255, 255, 0.7);
+  }
+  
+  .light-mode .power-status-badge {
+    background-color: rgba(229, 231, 235, 0.7);
+    color: rgba(0, 0, 0, 0.6);
+  }
+  
+  .power-status-badge.powerup {
+    background-color: rgba(34, 197, 94, 0.2);
+    color: var(--green);
+  }
+  
+  .power-status-badge.powerdown {
+    background-color: rgba(239, 68, 68, 0.2);
+    color: var(--red);
+  }
+  
+  /* Power Toggles */
+  .power-toggles {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  
+  @media (min-width: 768px) {
+    .power-toggles {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+  
+  .power-toggle {
+    position: relative;
+    border-radius: 0.5rem;
+    border: 1px solid var(--border-dark);
+    background-color: var(--card-bg-dark);
+    padding: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+  }
+  
+  .light-mode .power-toggle {
+    border-color: var(--border-light);
+    background-color: var(--card-bg-light);
+  }
+  
+  .power-toggle:hover {
+    background-color: rgba(55, 65, 81, 0.5);
+  }
+  
+  .light-mode .power-toggle:hover {
+    background-color: rgba(243, 244, 246, 0.5);
+  }
+  
+  .power-toggle.active {
+    border-color: rgba(255, 255, 255, 0.5);
+  }
+  
+  .light-mode .power-toggle.active {
+    border-color: rgba(0, 0, 0, 0.2);
+  }
+  
+  .power-toggle.green {
+    border-color: var(--green);
+    background-color: rgba(34, 197, 94, 0.2);
+  }
+  
+  .power-toggle.red {
+    border-color: var(--red);
+    background-color: rgba(239, 68, 68, 0.2);
+  }
+  
+  .power-toggle.blue {
+    border-color: var(--blue);
+    background-color: rgba(59, 130, 246, 0.2);
+  }
+  
+  .power-toggle.yellow {
+    border-color: var(--yellow);
+    background-color: rgba(234, 179, 8, 0.2);
+  }
+  
+  .toggle-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  .toggle-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .toggle-icon svg {
+    width: 1.5rem;
+    height: 1.5rem;
+  }
+  
+  .power-toggle.green .toggle-icon svg {
+    color: var(--green);
+  }
+  
+  .power-toggle.red .toggle-icon svg {
+    color: var(--red);
+  }
+  
+  .power-toggle.blue .toggle-icon svg {
+    color: var(--blue);
+  }
+  
+  .power-toggle.yellow .toggle-icon svg {
+    color: var(--yellow);
+  }
+  
+  .toggle-status {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  
+  .toggle-label {
+    font-size: 0.875rem;
+    color: rgba(255, 255, 255, 0.6);
+  }
+  
+  .light-mode .toggle-label {
+    color: rgba(0, 0, 0, 0.6);
+  }
+  
+  .toggle-switch {
+    position: relative;
+    width: 2.5rem;
+    height: 1.25rem;
+    border-radius: 9999px;
+    background-color: rgba(55, 65, 81, 0.7);
+  }
+  
+  .light-mode .toggle-switch {
+    background-color: rgba(229, 231, 235, 0.7);
+  }
+  
+  .toggle-slider {
+    position: absolute;
+    top: 0.125rem;
+    left: 0.125rem;
+    width: 1rem;
+    height: 1rem;
+    border-radius: 50%;
+    background-color: rgba(156, 163, 175, 0.7);
+    transition: transform 0.3s ease, background-color 0.3s ease;
+  }
+  
+  .light-mode .toggle-slider {
+    background-color: rgba(156, 163, 175, 0.7);
+  }
+  
+  .power-toggle.active .toggle-slider {
+    transform: translateX(1.25rem);
+  }
+  
+  .power-toggle.green .toggle-slider {
+    background-color: var(--green);
+  }
+  
+  .power-toggle.red .toggle-slider {
+    background-color: var(--red);
+  }
+  
+  .power-toggle.blue .toggle-slider {
+    background-color: var(--blue);
+  }
+  
+  .power-toggle.yellow .toggle-slider {
+    background-color: var(--yellow);
+  }
+  
+  .power-toggle.active::after {
+    content: "";
+    position: absolute;
+    inset: -2px;
+    border-radius: 0.625rem;
+    border: 2px solid;
+    border-color: inherit;
+    opacity: 0.5;
+    pointer-events: none;
+    animation: pulse-border 2s infinite ease-in-out;
+  }
+  
+  @keyframes pulse-border {
+    0%,
+    100% {
+      opacity: 0.5;
+    }
+    50% {
+      opacity: 0.8;
+    }
+  }
+  /* Mascot base style */
+  .mascot {
+    position: absolute;
+    width: 250px; /* Fixed width */
+    height: 250px; /* Fixed height */
+    z-index: 30;
+    transition: all 0.5s ease;
+  }
+  
+  .mascot img {
+    width: 100%; /* Fill the mascot container */
+    height: 100%;
+    object-fit: contain; /* Keeps aspect ratio */
+  }
+  
+  /* Eagles mascots (left side) */
+  .eagles-mascot {
+    top: 60%;
+    left: 20%; /* Position on left side of field */
+    transform: translateY(-50%);
+  }
+  
+  /* Lions mascots (right side) */
+  .lions-mascot {
+    
+    top: 60%;
+    right: 20%; /* Position on right side of field */
+    transform: translateY(-50%);
+  }
+  
+  /* Animation for happy state */
+  .mascot.happy {
+    animation: bounce 1s ease infinite alternate;
+  }
+  
+  /* Animation for sad state */
+  .mascot.sad {
+    animation: shake 2s ease infinite;
+  }
+  
+  @keyframes bounce {
+    0% {
+      transform: translateY(-50%) scale(1);
+    }
+    100% {
+      transform: translateY(-60%) scale(1.1);
+    }
+  }
+  
+  @keyframes shake {
+    0% {
+      transform: translateY(-50%) rotate(0deg);
+    }
+    10%,
+    30%,
+    50%,
+    70%,
+    90% {
+      transform: translateY(-50%) rotate(-5deg);
+    }
+    20%,
+    40%,
+    60%,
+    80% {
+      transform: translateY(-50%) rotate(5deg);
+    }
+  }
+  
+  /* Add a fade-in effect for mascots */
+  .mascot.show {
+    opacity: 1;
+    visibility: visible;
+  }
+  
+  .mascot.hidden {
+    opacity: 0;
+    visibility: hidden;
+  }
+  
