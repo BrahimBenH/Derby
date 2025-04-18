@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
-  // State management with localStorage support
+  // Modify the state object to ensure it includes all button states
   const defaultState = {
     isDarkMode: true,
     scores: {
@@ -97,6 +97,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const lionsHappyMascot = document.querySelector(".lions-mascot.happy")
   const lionsSadMascot = document.querySelector(".lions-mascot.sad")
 
+  // Add storage event listener right after state initialization
   // Listen for storage events (changes from other tabs/windows)
   window.addEventListener("storage", (event) => {
     if (event.key === "gameState") {
@@ -108,7 +109,7 @@ document.addEventListener("DOMContentLoaded", () => {
           state = newState
 
           // Update the UI to reflect the new state
-          updateEntireUI()
+          updateButtonStates()
 
           // Show notification
           showNotification("Game state updated from another window")
@@ -278,7 +279,7 @@ document.addEventListener("DOMContentLoaded", () => {
     animateScoreChange(team)
 
     // Show happy mascot when scoring
-    if (team === "eagles") {
+    if (team === "eagles" ) {
       showMascot(eaglesHappyMascot, "eaglesHappy")
     } else {
       showMascot(lionsHappyMascot, "lionsHappy")
@@ -287,7 +288,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // Save state after change
     saveState()
   }
-
+  
   function decrementScore(team) {
     state.scores[team] = Math.max(0, state.scores[team] - 1)
     updateScoreDisplays(team)
@@ -441,8 +442,9 @@ document.addEventListener("DOMContentLoaded", () => {
       state.powerUps[`${team}GoalSize`] = "bigger"
 
       // Show happy mascot
-      if (team === "eagles") {
+      if (team === "eagles" ) {
         showMascot(eaglesHappyMascot, "eaglesHappy")
+        
       } else {
         showMascot(lionsHappyMascot, "lionsHappy")
       }
@@ -992,45 +994,91 @@ document.addEventListener("DOMContentLoaded", () => {
     }, 1000)
   }
 
-  // Initialize UI
+  // Modify the initializeUI function to use the new updateButtonStates function
   function initializeUI() {
     // Set initial theme
-    updateThemeUI()
+    if (state.isDarkMode) {
+      body.classList.add("dark-mode")
+      sunIcon.classList.remove("hidden")
+      moonIcon.classList.add("hidden")
+    } else {
+      body.classList.add("light-mode")
+      sunIcon.classList.add("hidden")
+      moonIcon.classList.remove("hidden")
+    }
 
     // Set initial scores
     updateScoreDisplays("eagles")
     updateScoreDisplays("lions")
 
-    // Set initial goal sizes
+    // Update all button states
+    updateButtonStates()
+  }
+
+  // Add a function to update all button states based on current state
+  function updateButtonStates() {
+    // Update goal sizes
     updateGoalSize("eagles")
     updateGoalSize("lions")
 
-    // Set initial weather effects
+    // Update weather effects
     updateWeatherEffect("eagles", state.powerUps.eaglesWeather)
     updateWeatherEffect("lions", state.powerUps.lionsWeather)
 
-    // Set initial point multipliers
+    // Update point multipliers
     updatePointMultiplierDisplay()
 
-    // Set initial status badges
+    // Update status badges
     updateStatusBadges()
 
-    // Set initial power toggles UI
+    // Update power toggles UI
     powerToggles.forEach((toggle) => {
       const control = toggle.dataset.control
       updatePowerToggleUI(control, toggle)
     })
 
-    // Update center light UI
+    // Update center light
     updateCenterLightUI()
 
-    // Update power spotlight UI
-    updatePowerSpotlightUI()
+    // Update power spotlight
+    if (state.powerUpMovement.active) {
+      powerSpotlight.classList.remove("hidden")
+      powerSpotlight.classList.add(state.powerUpMovement.type)
+      powerSpotlight.style.left = `calc(${state.powerUpMovement.position}% - 30px)`
 
-    // Set initial toggle controls availability
-    updateToggleControlsAvailability()
+      const spotlightSymbol = powerSpotlight.querySelector(".spotlight-symbol")
+      if (spotlightSymbol) {
+        spotlightSymbol.textContent = state.powerUpMovement.type === "powerup" ? "+" : "-"
+      }
 
-    // Update mascots UI
+      powerStatusBadge.textContent = state.powerUpMovement.type === "powerup" ? "Power-up Active" : "Power-down Active"
+      powerStatusBadge.classList.remove("powerup", "powerdown")
+      powerStatusBadge.classList.add(state.powerUpMovement.type)
+
+      powerTypeButtons.forEach((btn) => {
+        btn.classList.toggle("active", btn.dataset.type === state.powerUpMovement.type)
+      })
+
+      directionButtons.forEach((btn) => {
+        btn.disabled = false
+      })
+    } else {
+      powerSpotlight.classList.add("hidden")
+      powerSpotlight.classList.remove("powerup", "powerdown")
+
+      powerTypeButtons.forEach((btn) => {
+        btn.classList.remove("active")
+      })
+
+      directionButtons.forEach((btn) => {
+        btn.disabled = true
+      })
+
+      powerStatusBadge.textContent = "No Power Active"
+      powerStatusBadge.classList.remove("powerup", "powerdown")
+    }
+
+    // Update mascots visibility based on state
     updateMascotsUI()
   }
 
