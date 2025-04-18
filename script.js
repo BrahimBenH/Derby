@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
-  // State management
-  const state = {
+  // State management with localStorage support
+  const defaultState = {
     isDarkMode: true,
     scores: {
       eagles: 0,
@@ -24,6 +24,37 @@ document.addEventListener("DOMContentLoaded", () => {
       type: "none", // 'powerup', 'powerdown', 'none'
       active: false, // whether the power-up/down is currently moving
     },
+    mascots: {
+      eaglesHappy: false,
+      eaglesSad: false,
+      lionsHappy: false,
+      lionsSad: false,
+    },
+  }
+
+  // Load state from localStorage or use default
+  let state = loadState() || defaultState
+
+  // Function to save state to localStorage
+  function saveState() {
+    try {
+      localStorage.setItem("gameState", JSON.stringify(state))
+      console.log("State saved to localStorage")
+    } catch (error) {
+      console.error("Failed to save state to localStorage:", error)
+      showNotification("Failed to save game state")
+    }
+  }
+
+  // Function to load state from localStorage
+  function loadState() {
+    try {
+      const savedState = localStorage.getItem("gameState")
+      return savedState ? JSON.parse(savedState) : null
+    } catch (error) {
+      console.error("Failed to load state from localStorage:", error)
+      return null
+    }
   }
 
   // DOM Elements
@@ -66,12 +97,72 @@ document.addEventListener("DOMContentLoaded", () => {
   const lionsHappyMascot = document.querySelector(".lions-mascot.happy")
   const lionsSadMascot = document.querySelector(".lions-mascot.sad")
 
-  // Theme Toggle
-  themeToggle.addEventListener("click", toggleTheme)
+  // Listen for storage events (changes from other tabs/windows)
+  window.addEventListener("storage", (event) => {
+    if (event.key === "gameState") {
+      try {
+        // Load the new state
+        const newState = JSON.parse(event.newValue)
+        if (newState) {
+          // Update our state
+          state = newState
 
-  function toggleTheme() {
-    state.isDarkMode = !state.isDarkMode
+          // Update the UI to reflect the new state
+          updateEntireUI()
 
+          // Show notification
+          showNotification("Game state updated from another window")
+        }
+      } catch (error) {
+        console.error("Failed to process storage event:", error)
+      }
+    }
+  })
+
+  // Function to update the entire UI based on current state
+  function updateEntireUI() {
+    // Update theme
+    updateThemeUI()
+
+    // Update scores
+    updateScoreDisplays("eagles")
+    updateScoreDisplays("lions")
+
+    // Update goal sizes
+    updateGoalSize("eagles")
+    updateGoalSize("lions")
+
+    // Update weather effects
+    updateWeatherEffect("eagles", state.powerUps.eaglesWeather)
+    updateWeatherEffect("lions", state.powerUps.lionsWeather)
+
+    // Update point multipliers
+    updatePointMultiplierDisplay()
+
+    // Update status badges
+    updateStatusBadges()
+
+    // Update power toggles UI
+    powerToggles.forEach((toggle) => {
+      const control = toggle.dataset.control
+      updatePowerToggleUI(control, toggle)
+    })
+
+    // Update center light
+    updateCenterLightUI()
+
+    // Update power spotlight
+    updatePowerSpotlightUI()
+
+    // Update toggle controls availability
+    updateToggleControlsAvailability()
+
+    // Update mascots
+    updateMascotsUI()
+  }
+
+  // Function to update theme UI
+  function updateThemeUI() {
     if (state.isDarkMode) {
       body.classList.remove("light-mode")
       body.classList.add("dark-mode")
@@ -85,6 +176,84 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
+  // Function to update center light UI
+  function updateCenterLightUI() {
+    centerLight.classList.remove("red", "green", "blue", "active")
+    lightButtons.forEach((btn) => btn.classList.remove("active"))
+
+    if (state.centerLights.red) {
+      centerLight.classList.add("red", "active")
+      document.querySelector('.light-btn[data-color="red"]').classList.add("active")
+    } else if (state.centerLights.green) {
+      centerLight.classList.add("green", "active")
+      document.querySelector('.light-btn[data-color="green"]').classList.add("active")
+    } else if (state.centerLights.blue) {
+      centerLight.classList.add("blue", "active")
+      document.querySelector('.light-btn[data-color="blue"]').classList.add("active")
+    }
+  }
+
+  // Function to update power spotlight UI
+  function updatePowerSpotlightUI() {
+    powerSpotlight.classList.remove("powerup", "powerdown")
+    powerSpotlight.classList.add("hidden")
+
+    powerTypeButtons.forEach((btn) => btn.classList.remove("active"))
+
+    directionButtons.forEach((btn) => {
+      btn.disabled = !state.powerUpMovement.active
+    })
+
+    if (state.powerUpMovement.active) {
+      powerSpotlight.classList.remove("hidden")
+      powerSpotlight.classList.add(state.powerUpMovement.type)
+      powerSpotlight.style.left = `calc(${state.powerUpMovement.position}% - 30px)`
+
+      const spotlightSymbol = powerSpotlight.querySelector(".spotlight-symbol")
+      if (spotlightSymbol) {
+        spotlightSymbol.textContent = state.powerUpMovement.type === "powerup" ? "+" : "-"
+      }
+
+      powerStatusBadge.textContent = state.powerUpMovement.type === "powerup" ? "Power-up Active" : "Power-down Active"
+      powerStatusBadge.classList.remove("powerup", "powerdown")
+      powerStatusBadge.classList.add(state.powerUpMovement.type)
+
+      document.querySelector(`.power-type-btn[data-type="${state.powerUpMovement.type}"]`).classList.add("active")
+    } else {
+      powerStatusBadge.textContent = "No Power Active"
+      powerStatusBadge.classList.remove("powerup", "powerdown")
+    }
+  }
+
+  // Function to update mascots UI
+  function updateMascotsUI() {
+    // Hide all mascots first
+    eaglesHappyMascot.classList.add("hidden")
+    eaglesSadMascot.classList.add("hidden")
+    lionsHappyMascot.classList.add("hidden")
+    lionsSadMascot.classList.add("hidden")
+
+    // Show mascots based on state
+    if (state.mascots.eaglesHappy) eaglesHappyMascot.classList.remove("hidden")
+    if (state.mascots.eaglesSad) eaglesSadMascot.classList.remove("hidden")
+    if (state.mascots.lionsHappy) lionsHappyMascot.classList.remove("hidden")
+    if (state.mascots.lionsSad) lionsSadMascot.classList.remove("hidden")
+  }
+
+  // Theme Toggle
+  themeToggle.addEventListener("click", () => {
+    toggleTheme()
+    // State is already saved inside toggleTheme()
+  })
+
+  function toggleTheme() {
+    state.isDarkMode = !state.isDarkMode
+    updateThemeUI()
+
+    // Save state after change
+    saveState()
+  }
+
   // Score Controls
   document.querySelectorAll(".score-btn").forEach((btn) => {
     btn.addEventListener("click", function () {
@@ -93,8 +262,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
       if (action === "increment") {
         incrementScore(team)
+        // State is already saved inside incrementScore()
       } else {
         decrementScore(team)
+        // State is already saved inside decrementScore()
       }
     })
   })
@@ -108,16 +279,22 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Show happy mascot when scoring
     if (team === "eagles") {
-      showMascot(eaglesHappyMascot)
+      showMascot(eaglesHappyMascot, "eaglesHappy")
     } else {
-      showMascot(lionsHappyMascot)
+      showMascot(lionsHappyMascot, "lionsHappy")
     }
+
+    // Save state after change
+    saveState()
   }
 
   function decrementScore(team) {
     state.scores[team] = Math.max(0, state.scores[team] - 1)
     updateScoreDisplays(team)
     animateScoreChange(team)
+
+    // Save state after change
+    saveState()
   }
 
   function updateScoreDisplays(team) {
@@ -143,6 +320,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
       // Update toggle controls based on the light color
       updateToggleControlsAvailability()
+
+      // Save state immediately
+      saveState()
     })
   })
 
@@ -190,6 +370,9 @@ document.addEventListener("DOMContentLoaded", () => {
     btn.addEventListener("click", function () {
       const type = this.dataset.type
       startPowerUpMovement(type)
+
+      // Save state immediately
+      saveState()
     })
   })
 
@@ -197,6 +380,9 @@ document.addEventListener("DOMContentLoaded", () => {
     btn.addEventListener("click", function () {
       const direction = this.dataset.direction
       movePowerUp(direction)
+
+      // Save state immediately
+      saveState()
     })
   })
 
@@ -256,9 +442,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
       // Show happy mascot
       if (team === "eagles") {
-        showMascot(eaglesHappyMascot)
+        showMascot(eaglesHappyMascot, "eaglesHappy")
       } else {
-        showMascot(lionsHappyMascot)
+        showMascot(lionsHappyMascot, "lionsHappy")
       }
     } else if (state.powerUpMovement.type === "powerdown") {
       // Apply power-down: make goal smaller
@@ -266,9 +452,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
       // Show sad mascot
       if (team === "eagles") {
-        showMascot(eaglesSadMascot)
+        showMascot(eaglesSadMascot, "eaglesSad")
       } else {
-        showMascot(lionsSadMascot)
+        showMascot(lionsSadMascot, "lionsSad")
       }
     }
 
@@ -281,22 +467,39 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Reset power-up movement
     resetPowerUpMovement()
+
+    // Save state after change
+    saveState()
   }
 
-  // Add a function to show mascots temporarily
-  function showMascot(mascotElement) {
+  // Updated function to show mascots temporarily and track in state
+  function showMascot(mascotElement, mascotStateKey) {
     // Hide all mascots first
     eaglesHappyMascot.classList.add("hidden")
     eaglesSadMascot.classList.add("hidden")
     lionsHappyMascot.classList.add("hidden")
     lionsSadMascot.classList.add("hidden")
 
-    // Show the selected mascot
+    // Reset all mascot states
+    state.mascots = {
+      eaglesHappy: false,
+      eaglesSad: false,
+      lionsHappy: false,
+      lionsSad: false,
+    }
+
+    // Show the selected mascot and update state
     mascotElement.classList.remove("hidden")
+    state.mascots[mascotStateKey] = true
+
+    // Save state after mascot change
+    saveState()
 
     // Hide it after 3 seconds
     setTimeout(() => {
       mascotElement.classList.add("hidden")
+      state.mascots[mascotStateKey] = false
+      saveState()
     }, 3000)
   }
 
@@ -326,6 +529,9 @@ document.addEventListener("DOMContentLoaded", () => {
       clearInterval(autoMovementInterval)
       autoMovementInterval = null
     }
+
+    // Save state after change
+    saveState()
   }
 
   let autoMovementInterval = null
@@ -376,6 +582,9 @@ document.addEventListener("DOMContentLoaded", () => {
       }
 
       togglePower(control, this)
+
+      // Save state immediately
+      saveState()
     })
   })
 
@@ -416,6 +625,9 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     updatePowerToggleUI(control, element)
+
+    // Save state after change
+    saveState()
   }
 
   // Also modify the toggleGoalSize function to show mascots when manually toggled
@@ -433,18 +645,18 @@ document.addEventListener("DOMContentLoaded", () => {
 
       // Show sad mascot when making goal smaller
       if (team === "eagles") {
-        showMascot(eaglesSadMascot)
+        showMascot(lionsSadMascot, "lionsSad")
       } else {
-        showMascot(lionsSadMascot)
+        showMascot(eaglesSadMascot, "eaglesSad")
       }
     } else if (state.centerLights.green) {
       newSize = "bigger" // Green light makes goal bigger
 
       // Show happy mascot when making goal bigger
       if (team === "eagles") {
-        showMascot(eaglesHappyMascot)
+        showMascot(lionsHappyMascot, "lionsHappy")
       } else {
-        showMascot(lionsHappyMascot)
+        showMascot(eaglesHappyMascot, "eaglesHappy")
       }
     }
 
@@ -483,17 +695,17 @@ document.addEventListener("DOMContentLoaded", () => {
 
         // Show sad mascot for the team getting the storm
         if (targetTeam === "eagles") {
-          showMascot(eaglesSadMascot)
+          showMascot(lionsSadMascot, "lionsSad")
         } else {
-          showMascot(lionsSadMascot)
+          showMascot(eaglesSadMascot, "eaglesSad")
         }
       } else {
         // Red light: Apply storm to same team
         // Show sad mascot for the team getting the storm
         if (team === "eagles") {
-          showMascot(eaglesSadMascot)
+          showMascot(lionsSadMascot, "lionsSad")
         } else {
-          showMascot(lionsSadMascot)
+          showMascot(eaglesSadMascot, "eaglesSad")
         }
       }
 
@@ -740,21 +952,50 @@ document.addEventListener("DOMContentLoaded", () => {
     .toggle-notification.show {
       opacity: 1;
     }
+    
+    .save-indicator {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background-color: rgba(0, 0, 0, 0.6);
+      color: white;
+      padding: 8px 12px;
+      border-radius: 4px;
+      font-size: 12px;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    
+    .save-indicator.show {
+      opacity: 1;
+    }
   `
   document.head.appendChild(style)
+
+  // Add save indicator
+  const saveIndicator = document.createElement("div")
+  saveIndicator.className = "save-indicator"
+  saveIndicator.textContent = "Game state saved"
+  document.body.appendChild(saveIndicator)
+
+  // Override saveState to show indicator
+  const originalSaveState = saveState
+  saveState = () => {
+    originalSaveState()
+
+    // Show save indicator
+    saveIndicator.classList.add("show")
+
+    // Hide after 1 second
+    setTimeout(() => {
+      saveIndicator.classList.remove("show")
+    }, 1000)
+  }
 
   // Initialize UI
   function initializeUI() {
     // Set initial theme
-    if (state.isDarkMode) {
-      body.classList.add("dark-mode")
-      sunIcon.classList.remove("hidden")
-      moonIcon.classList.add("hidden")
-    } else {
-      body.classList.add("light-mode")
-      sunIcon.classList.add("hidden")
-      moonIcon.classList.remove("hidden")
-    }
+    updateThemeUI()
 
     // Set initial scores
     updateScoreDisplays("eagles")
@@ -765,8 +1006,8 @@ document.addEventListener("DOMContentLoaded", () => {
     updateGoalSize("lions")
 
     // Set initial weather effects
-    updateWeatherEffect("eagles", "normal")
-    updateWeatherEffect("lions", "normal")
+    updateWeatherEffect("eagles", state.powerUps.eaglesWeather)
+    updateWeatherEffect("lions", state.powerUps.lionsWeather)
 
     // Set initial point multipliers
     updatePointMultiplierDisplay()
@@ -780,15 +1021,37 @@ document.addEventListener("DOMContentLoaded", () => {
       updatePowerToggleUI(control, toggle)
     })
 
-    // Disable direction buttons initially
-    directionButtons.forEach((btn) => {
-      btn.disabled = true
-    })
+    // Update center light UI
+    updateCenterLightUI()
+
+    // Update power spotlight UI
+    updatePowerSpotlightUI()
 
     // Set initial toggle controls availability
     updateToggleControlsAvailability()
+
+    // Update mascots UI
+    updateMascotsUI()
   }
 
   // Start the application
   initializeUI()
+
+  // Add a reset button functionality
+  const resetButton = document.getElementById("reset-button")
+  if (resetButton) {
+    resetButton.addEventListener("click", () => {
+      // Reset to default state
+      state = JSON.parse(JSON.stringify(defaultState))
+
+      // Save the reset state
+      saveState()
+
+      // Reinitialize the UI
+      initializeUI()
+
+      // Show notification
+      showNotification("Game state has been reset")
+    })
+  }
 })
