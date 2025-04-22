@@ -685,6 +685,8 @@ document.addEventListener("DOMContentLoaded", () => {
     if (currentWeather === "storm") {
       newWeather = "normal"
       updateWeatherEffect(team, "normal")
+      state.powerUps[`${team}Weather`] = newWeather
+      updateStatusBadges()
     }
     // Otherwise, apply effect based on active light color
     else if (state.centerLights.red || state.centerLights.green) {
@@ -701,6 +703,10 @@ document.addEventListener("DOMContentLoaded", () => {
         } else {
           showMascot(eaglesSadMascot, "eaglesSad")
         }
+        updateWeatherEffect(targetTeam, "storm")
+        state.powerUps[`${targetTeam}Weather`] = newWeather
+        updateStatusBadges()
+
       } else {
         // Red light: Apply storm to same team
         // Show sad mascot for the team getting the storm
@@ -709,21 +715,23 @@ document.addEventListener("DOMContentLoaded", () => {
         } else {
           showMascot(eaglesSadMascot, "eaglesSad")
         }
+        updateWeatherEffect(team, "storm")
+        state.powerUps[`${team}Weather`] = newWeather
+        updateStatusBadges()
       }
 
       // Apply the storm effect to the target team
-      updateWeatherEffect(targetTeam, "storm")
     }
 
     // Update the state for the team that was toggled
-    state.powerUps[`${team}Weather`] = newWeather
-    updateStatusBadges()
+    
   }
 
   // New function to update weather effect for a specific team
   function updateWeatherEffect(team, weatherState) {
     const weatherEffect = team === "eagles" ? eaglesWeather : lionsWeather
     const isStorm = weatherState === "storm"
+
 
     if (isStorm) {
       weatherEffect.classList.remove("hidden")
