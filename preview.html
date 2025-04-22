@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Derby Challenge</title>
+  <link rel="stylesheet" href="styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="dark-mode">
+  <div class="container">
+    <header>
+      
+      <div class="title-container">
+        <h1>Derby Challenge</h1>
+        <p class="subtitle">  Eagles vs Lions</p>
+      </div>
+      <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
+        <svg id="sun-icon" class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="5"></circle>
+          <line x1="12" y1="1" x2="12" y2="3"></line>
+          <line x1="12" y1="21" x2="12" y2="23"></line>
+          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+          <line x1="1" y1="12" x2="3" y2="12"></line>
+          <line x1="21" y1="12" x2="23" y2="12"></line>
+          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+          <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+        </svg>
+        <svg id="moon-icon" class="icon hidden" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+        </svg>
+      </button>
+    </header>
+
+    <!-- Field with Goals and Weather -->
+    <div class="field">
+      <!-- Field markings -->
+      <div class="field-markings">
+        <div class="center-line"></div>
+        <div class="center-circle"></div>
+        <div class="penalty-area left"></div>
+        <div class="penalty-area right"></div>
+      </div>
+
+      <!-- Eagles Goal -->
+      <div class="goal eagles-goal">
+        <div class="goal-post"></div>
+        <div class="goal-net">
+          <div class="net-pattern horizontal"></div>
+          <div class="net-pattern horizontal"></div>
+          <div class="net-pattern horizontal"></div>
+          <div class="net-pattern horizontal"></div>
+          <div class="net-pattern horizontal"></div>
+          <div class="net-pattern vertical"></div>
+          <div class="net-pattern vertical"></div>
+          <div class="net-pattern vertical"></div>
+        </div>
+      </div>
+
+      <!-- Lions Goal -->
+      <div class="goal lions-goal">
+        <div class="goal-post"></div>
+        <div class="goal-net">
+          <div class="net-pattern horizontal"></div>
+          <div class="net-pattern horizontal"></div>
+          <div class="net-pattern horizontal"></div>
+          <div class="net-pattern horizontal"></div>
+          <div class="net-pattern horizontal"></div>
+          <div class="net-pattern vertical"></div>
+          <div class="net-pattern vertical"></div>
+          <div class="net-pattern vertical"></div>
+        </div>
+      </div>
+
+      <!-- Center Light -->
+      <div class="center-light">
+        <div class="light-fixture"></div>
+      </div>
+
+      <!-- Eagles Weather Effect -->
+      <div class="weather-effect eagles-weather hidden">
+        <div class="storm-overlay"></div>
+        <div class="clouds">
+          <div class="cloud cloud-1"></div>
+          <div class="cloud cloud-2"></div>
+          <div class="cloud cloud-3"></div>
+          <div class="cloud cloud-4"></div>
+          <div class="cloud cloud-5"></div>
+        </div>
+        <div class="rain-container"></div>
+        <div class="lightning-container"></div>
+      </div>
+
+      <!-- Lions Weather Effect -->
+      <div class="weather-effect lions-weather hidden">
+        <div class="storm-overlay"></div>
+        <div class="clouds">
+          <div class="cloud cloud-1"></div>
+          <div class="cloud cloud-2"></div>
+          <div class="cloud cloud-3"></div>
+          <div class="cloud cloud-4"></div>
+          <div class="cloud cloud-5"></div>
+        </div>
+        <div class="rain-container"></div>
+        <div class="lightning-container"></div>
+      </div>
+
+      <!-- Power-up/down Spotlight -->
+      <div class="power-spotlight hidden">
+        <div class="spotlight-glow"></div>
+        <div class="spotlight-symbol">+</div>
+      </div>
+
+      <!-- Score displays on field -->
+      <div class="field-scores">
+        <div class="team-score eagles-field-score">
+          <div class="team-name">Eagles</div>
+          <div class="score-value">0</div>
+        </div>
+        <div class="team-score lions-field-score">
+          <div class="team-name">Lions</div>
+          <div class="score-value">0</div>
+        </div>
+      </div>
+
+      <!-- Point multiplier indicator -->
+      <div class="point-multiplier eagles-multiplier-indicator hidden">EAGLES x2</div>
+      <div class="point-multiplier lions-multiplier-indicator hidden">LIONS x2</div>
+      
+
+      <!-- Team Mascots -->
+      <div class="mascot eagles-mascot happy hidden">
+        <img src="./images/happy-eagle.png" alt="Eagles Happy Mascot" />
+
+      </div>
+
+      <div class="mascot eagles-mascot sad hidden">
+        <img src="./images/sad-eagle.png" alt="Eagles Happy Mascot" />
+
+      </div>
+
+      <div class="mascot lions-mascot happy hidden">
+        
+            <img src="./images/happy-lion.png" alt="Eagles Happy Mascot" />
+        
+      </div>
+
+      <div class="mascot lions-mascot sad hidden">
+        <img src="./images/sad-lion.png" alt="Eagles Happy Mascot" />
+
+      </div>
+    </div>
+
+    <!-- Team Score Cards -->
+    <div class="score-cards">
+      <div class="score-card eagles-card">
+        <div class="score-header">
+          <h2>Eagles</h2>
+          <div class="score-controls">
+           
+          </div>
+        </div>
+        <div class="score-display">
+          <div class="score-value">0</div>
+        </div>
+        <div class="score-status">
+          <div class="separator"></div>
+          <div class="status-item">
+            <span class="status-label">Goal Size:</span>
+            <span class="status-badge goal-size">NORMAL</span>
+          </div>
+          <div class="status-item">
+            <span class="status-label">Weather:</span>
+            <span class="status-badge weather">NORMAL</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="score-card lions-card">
+        <div class="score-header">
+          <h2>Lions</h2>
+          <div class="score-controls">
+            
+          </div>
+        </div>
+        <div class="score-display">
+          <div class="score-value">0</div>
+        </div>
+        <div class="score-status">
+          <div class="separator"></div>
+          <div class="status-item">
+            <span class="status-label">Goal Size:</span>
+            <span class="status-badge goal-size">NORMAL</span>
+          </div>
+          <div class="status-item">
+            <span class="status-label">Weather:</span>
+            <span class="status-badge weather">NORMAL</span>
+          </div>
+        </div>
+    </div>
+
+
+  <script src="script.js"></script>
+</body>
+</html>

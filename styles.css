@@ -1366,3 +1366,24 @@ h1 {
   opacity: 1;
 }
 
+.button-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.preview-btn {
+  padding: 8px 16px;
+  background-color: #395619; /* Indigo */
+  color: white;
+  border: none;
+  border-radius: 6px;
+  text-decoration: none;
+  font-size: 14px;
+  transition: background-color 0.2s ease;
+  margin-top: 50px;
+}
+
+.preview-btn:hover {
+  background-color: #2f442c; /* Darker indigo */
+}

@@ -1,3 +1,7 @@
+
+
+
+
 document.addEventListener("DOMContentLoaded", () => {
   // Modify the state object to ensure it includes all button states
   const defaultState = {
@@ -34,6 +38,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Load state from localStorage or use default
   let state = loadState() || defaultState
+  // Listen for storage events (changes from other tabs/windows)
+  window.addEventListener("storage", (event) => {
+    if (event.key === "gameState") {
+      // Reload the page when the gameState in localStorage changes
+      location.reload();
+    }
+  });
 
   // Function to save state to localStorage
   function saveState() {
@@ -100,26 +111,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Add storage event listener right after state initialization
   // Listen for storage events (changes from other tabs/windows)
-  window.addEventListener("storage", (event) => {
-    if (event.key === "gameState") {
-      try {
-        // Load the new state
-        const newState = JSON.parse(event.newValue)
-        if (newState) {
-          // Update our state
-          state = newState
 
-          // Update the UI to reflect the new state
-          updateButtonStates()
-
-          // Show notification
-          showNotification("Game state updated from another window")
-        }
-      } catch (error) {
-        console.error("Failed to process storage event:", error)
-      }
-    }
-  })
 
   // Function to update the entire UI based on current state
   function updateEntireUI() {
@@ -240,6 +232,9 @@ document.addEventListener("DOMContentLoaded", () => {
     if (state.mascots.eaglesSad) eaglesSadMascot.classList.remove("hidden")
     if (state.mascots.lionsHappy) lionsHappyMascot.classList.remove("hidden")
     if (state.mascots.lionsSad) lionsSadMascot.classList.remove("hidden")
+
+
+      
   }
 
   // Theme Toggle
@@ -282,6 +277,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // Show happy mascot when scoring
     if (team === "eagles" ) {
       showMascot(eaglesHappyMascot, "eaglesHappy")
+      
     } else {
       showMascot(lionsHappyMascot, "lionsHappy")
     }
@@ -478,10 +474,12 @@ document.addEventListener("DOMContentLoaded", () => {
   // Updated function to show mascots temporarily and track in state
   function showMascot(mascotElement, mascotStateKey) {
     // Hide all mascots first
+    
     eaglesHappyMascot.classList.add("hidden")
     eaglesSadMascot.classList.add("hidden")
     lionsHappyMascot.classList.add("hidden")
     lionsSadMascot.classList.add("hidden")
+    
 
     // Reset all mascot states
     state.mascots = {
@@ -506,8 +504,9 @@ document.addEventListener("DOMContentLoaded", () => {
       mascotElement.classList.add("hidden")
       state.mascots[mascotStateKey] = false
       saveState()
+      updateMascotsUI()
     }, 3000)
-    updateMascotsUI()
+    
   }
 
   function resetPowerUpMovement() {
@@ -685,6 +684,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const currentWeather = state.powerUps[`${team}Weather`]
     let newWeather = "normal"
     let targetTeam = team // Default to same team
+    updateStatusBadges()
+    updateToggleControlsAvailability()
 
     // If already has an effect, toggle it off
     if (currentWeather === "storm") {
@@ -711,6 +712,7 @@ document.addEventListener("DOMContentLoaded", () => {
         updateWeatherEffect(targetTeam, "storm")
         state.powerUps[`${targetTeam}Weather`] = newWeather
         updateStatusBadges()
+        updateEntireUI()
 
       } else {
         // Red light: Apply storm to same team
@@ -727,6 +729,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
       // Apply the storm effect to the target team
     }
+    updateStatusBadges()
+
 
     // Update the state for the team that was toggled
     
@@ -1043,6 +1047,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Update status badges
     updateStatusBadges()
+
+    updateMascotsUI()
+    updateEntireUI()
 
     // Update power toggles UI
     powerToggles.forEach((toggle) => {
