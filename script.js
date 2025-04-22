@@ -44,6 +44,7 @@ document.addEventListener("DOMContentLoaded", () => {
       console.error("Failed to save state to localStorage:", error)
       showNotification("Failed to save game state")
     }
+
   }
 
   // Function to load state from localStorage
@@ -488,12 +489,15 @@ document.addEventListener("DOMContentLoaded", () => {
       eaglesSad: false,
       lionsHappy: false,
       lionsSad: false,
-    }
 
+    }
+    
+    
+  
     // Show the selected mascot and update state
     mascotElement.classList.remove("hidden")
     state.mascots[mascotStateKey] = true
-
+    updateMascotsUI()
     // Save state after mascot change
     saveState()
 
@@ -503,6 +507,7 @@ document.addEventListener("DOMContentLoaded", () => {
       state.mascots[mascotStateKey] = false
       saveState()
     }, 3000)
+    updateMascotsUI()
   }
 
   function resetPowerUpMovement() {
