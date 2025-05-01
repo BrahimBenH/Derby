@@ -263,13 +263,11 @@ h1 {
 }
 
 .eagles-goal {
-  right: 0;
-  left: 96%;
+  left: 0;
 }
 
 .lions-goal {
-  left: 3%;
-  right: auto;
+  right: 0;
 }
 
 .goal-post {
@@ -311,29 +309,13 @@ h1 {
   right: 0;
 }
 
-/* Goal net visibility */
 .goal-net {
   position: absolute;
   height: 100%;
   width: 2.5rem;
   border-style: dashed;
   border-width: 1px;
-  border-color: rgba(255, 255, 255, 0.6); /* Increase opacity for better visibility */
-  background-color: rgba(255, 255, 255, 0.1); /* Add a subtle background for contrast */
-}
-
-.light-mode .goal-net {
-  border-color: rgba(255, 255, 255, 0.8); /* Brighter in light mode */
-  background-color: rgba(255, 255, 255, 0.2); /* Slightly more visible in light mode */
-}
-
-.net-pattern {
-  position: absolute;
-  background-color: rgba(255, 255, 255, 0.4); /* Increase opacity for better visibility */
-}
-
-.light-mode .net-pattern {
-  background-color: rgba(255, 255, 255, 0.6); /* Brighter in light mode */
+  border-color: rgba(255, 255, 255, 0.3);
 }
 
 .eagles-goal .goal-net {
@@ -506,15 +488,13 @@ h1 {
 }
 
 .eagles-weather {
-  
-  left: 50%;
-  right: 0;
- 
+  left: 0;
+  right: 50%;
 }
 
 .lions-weather {
-  left: 0;
-  right: 50%;
+  left: 50%;
+  right: 0;
 }
 
 .storm-overlay {
@@ -692,22 +672,20 @@ h1 {
 }
 
 .eagles-multiplier-indicator {
-  
-  right: 25%;
-  transform: translateX(50%);
-  
+  left: 25%;
+  transform: translateX(-50%);
 }
 
 .lions-multiplier-indicator {
-  left: 25%;
-  transform: translateX(-50%);
+  right: 25%;
+  transform: translateX(50%);
 }
 
 /* Score Cards */
 .score-cards {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 0.5rem;
+  gap: 2rem;
   margin-bottom: 2rem;
 }
 
@@ -720,7 +698,7 @@ h1 {
 .score-card {
   border-radius: 0.5rem;
   border: 1px solid var(--border-dark);
-  padding: 0.5rem;
+  padding: 1.5rem;
 }
 
 .score-header {
@@ -774,13 +752,13 @@ h1 {
 }
 
 .score-display .score-value {
-  font-size: 4rem;
+  font-size: 6rem;
   font-weight: bold;
 }
 
 @media (min-width: 768px) {
   .score-display .score-value {
-    font-size: 5rem;
+    font-size: 9rem;
   }
 }
 
@@ -883,7 +861,7 @@ h1 {
 .light-controls {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.5rem;
+  gap: 1rem;
 }
 
 .light-btn {
@@ -1293,17 +1271,15 @@ h1 {
 
 /* Eagles mascots (left side) */
 .eagles-mascot {
-  
   top: 60%;
-  right: 20%; /* Position on right side of field */
+  left: 20%; /* Position on left side of field */
   transform: translateY(-50%);
-  
 }
 
 /* Lions mascots (right side) */
 .lions-mascot {
   top: 60%;
-  left: 20%; /* Position on left side of field */
+  right: 20%; /* Position on right side of field */
   transform: translateY(-50%);
 }
 
@@ -1393,7 +1369,7 @@ h1 {
 .button-container {
   display: flex;
   align-items: center;
-  gap: 5px;
+  gap: 10px;
 }
 
 .preview-btn {
