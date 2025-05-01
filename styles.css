@@ -488,13 +488,15 @@ h1 {
 }
 
 .eagles-weather {
-  left: 0;
-  right: 50%;
+  
+  left: 50%;
+  right: 0;
+ 
 }
 
 .lions-weather {
-  left: 50%;
-  right: 0;
+  left: 0;
+  right: 50%;
 }
 
 .storm-overlay {
@@ -672,13 +674,15 @@ h1 {
 }
 
 .eagles-multiplier-indicator {
-  left: 25%;
-  transform: translateX(-50%);
+  
+  right: 25%;
+  transform: translateX(50%);
+  
 }
 
 .lions-multiplier-indicator {
-  right: 25%;
-  transform: translateX(50%);
+  left: 25%;
+  transform: translateX(-50%);
 }
 
 /* Score Cards */
@@ -1271,15 +1275,17 @@ h1 {
 
 /* Eagles mascots (left side) */
 .eagles-mascot {
+  
   top: 60%;
-  left: 20%; /* Position on left side of field */
+  right: 20%; /* Position on right side of field */
   transform: translateY(-50%);
+  
 }
 
 /* Lions mascots (right side) */
 .lions-mascot {
   top: 60%;
-  right: 20%; /* Position on right side of field */
+  left: 20%; /* Position on left side of field */
   transform: translateY(-50%);
 }
 

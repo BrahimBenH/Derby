@@ -49,8 +49,10 @@
         <div class="penalty-area right"></div>
       </div>
 
-      <!-- Eagles Goal -->
-      <div class="goal eagles-goal">
+      
+
+      <!-- Lions Goal -->
+      <div class="goal lions-goal">
         <div class="goal-post"></div>
         <div class="goal-net">
           <div class="net-pattern horizontal"></div>
@@ -64,8 +66,8 @@
         </div>
       </div>
 
-      <!-- Lions Goal -->
-      <div class="goal lions-goal">
+      <!-- Eagles Goal -->
+      <div class="goal eagles-goal">
         <div class="goal-post"></div>
         <div class="goal-net">
           <div class="net-pattern horizontal"></div>
@@ -84,20 +86,6 @@
         <div class="light-fixture"></div>
       </div>
 
-      <!-- Eagles Weather Effect -->
-      <div class="weather-effect eagles-weather hidden">
-        <div class="storm-overlay"></div>
-        <div class="clouds">
-          <div class="cloud cloud-1"></div>
-          <div class="cloud cloud-2"></div>
-          <div class="cloud cloud-3"></div>
-          <div class="cloud cloud-4"></div>
-          <div class="cloud cloud-5"></div>
-        </div>
-        <div class="rain-container"></div>
-        <div class="lightning-container"></div>
-      </div>
-
       <!-- Lions Weather Effect -->
       <div class="weather-effect lions-weather hidden">
         <div class="storm-overlay"></div>
@@ -112,6 +100,22 @@
         <div class="lightning-container"></div>
       </div>
 
+      
+      <!-- Eagles Weather Effect -->
+      <div class="weather-effect eagles-weather hidden">
+        <div class="storm-overlay"></div>
+        <div class="clouds">
+          <div class="cloud cloud-1"></div>
+          <div class="cloud cloud-2"></div>
+          <div class="cloud cloud-3"></div>
+          <div class="cloud cloud-4"></div>
+          <div class="cloud cloud-5"></div>
+        </div>
+        <div class="rain-container"></div>
+        <div class="lightning-container"></div>
+      </div>
+
+
       <!-- Power-up/down Spotlight -->
       <div class="power-spotlight hidden">
         <div class="spotlight-glow"></div>
@@ -120,20 +124,21 @@
 
       <!-- Score displays on field -->
       <div class="field-scores">
-        <div class="team-score eagles-field-score">
-          <div class="team-name">Eagles</div>
-          <div class="score-value">0</div>
-        </div>
+       
         <div class="team-score lions-field-score">
           <div class="team-name">Lions</div>
+          <div class="score-value">0</div>
+        </div>
+        <div class="team-score eagles-field-score">
+          <div class="team-name">Eagles</div>
           <div class="score-value">0</div>
         </div>
       </div>
 
       <!-- Point multiplier indicator -->
-      <div class="point-multiplier eagles-multiplier-indicator hidden">EAGLES x2</div>
       <div class="point-multiplier lions-multiplier-indicator hidden">LIONS x2</div>
-      
+      <div class="point-multiplier eagles-multiplier-indicator hidden">EAGLES x2</div>
+
 
       <!-- Team Mascots -->
       <div class="mascot eagles-mascot happy hidden">
@@ -160,16 +165,18 @@
 
     <!-- Team Score Cards -->
     <div class="score-cards">
-      <div class="score-card eagles-card">
+      
+
+      <div class="score-card lions-card">
         <div class="score-header">
-          <h2>Eagles</h2>
+          <h2>Lions</h2>
           <div class="score-controls">
-            <button class="score-btn decrement" data-team="eagles">
+            <button class="score-btn decrement" data-team="lions">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <line x1="5" y1="12" x2="19" y2="12"></line>
               </svg>
             </button>
-            <button class="score-btn increment" data-team="eagles">
+            <button class="score-btn increment" data-team="lions">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <line x1="12" y1="5" x2="12" y2="19"></line>
                 <line x1="5" y1="12" x2="19" y2="12"></line>
@@ -192,17 +199,16 @@
           </div>
         </div>
       </div>
-
-      <div class="score-card lions-card">
+      <div class="score-card eagles-card">
         <div class="score-header">
-          <h2>Lions</h2>
+          <h2>Eagles</h2>
           <div class="score-controls">
-            <button class="score-btn decrement" data-team="lions">
+            <button class="score-btn decrement" data-team="eagles">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <line x1="5" y1="12" x2="19" y2="12"></line>
               </svg>
             </button>
-            <button class="score-btn increment" data-team="lions">
+            <button class="score-btn increment" data-team="eagles">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <line x1="12" y1="5" x2="12" y2="19"></line>
                 <line x1="5" y1="12" x2="19" y2="12"></line>
