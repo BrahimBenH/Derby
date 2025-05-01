@@ -263,11 +263,13 @@ h1 {
 }
 
 .eagles-goal {
-  left: 0;
+  right: 0;
+  left: 96%;
 }
 
 .lions-goal {
-  right: 0;
+  left: 3%;
+  right: auto;
 }
 
 .goal-post {
@@ -309,13 +311,29 @@ h1 {
   right: 0;
 }
 
+/* Goal net visibility */
 .goal-net {
   position: absolute;
   height: 100%;
   width: 2.5rem;
   border-style: dashed;
   border-width: 1px;
-  border-color: rgba(255, 255, 255, 0.3);
+  border-color: rgba(255, 255, 255, 0.6); /* Increase opacity for better visibility */
+  background-color: rgba(255, 255, 255, 0.1); /* Add a subtle background for contrast */
+}
+
+.light-mode .goal-net {
+  border-color: rgba(255, 255, 255, 0.8); /* Brighter in light mode */
+  background-color: rgba(255, 255, 255, 0.2); /* Slightly more visible in light mode */
+}
+
+.net-pattern {
+  position: absolute;
+  background-color: rgba(255, 255, 255, 0.4); /* Increase opacity for better visibility */
+}
+
+.light-mode .net-pattern {
+  background-color: rgba(255, 255, 255, 0.6); /* Brighter in light mode */
 }
 
 .eagles-goal .goal-net {
